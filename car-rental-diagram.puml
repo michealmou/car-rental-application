@@ -1,0 +1,68 @@
+@startuml
+title Car Rental - Class Diagram
+
+class Car {
+  - int carId
+  - String brand
+  - String model
+  - int year
+  - double dailyRate
+  - boolean isAvailable
+  - int mileage
+  + rent()
+  + returnCar(int kmDriven)
+  + calculateRentalCost(int days, boolean withInsurance): double
+  + printCarInfo()
+}
+
+class Customer {
+  - int customerId
+  - String name
+  - String licenseNum
+  - int[] rentalHistory
+  - int rentalCount
+  + addRental(int carId)
+  + printCustomerInfo()
+}
+
+class Rental {
+  - int rentalId
+  - Car car
+  - Customer customer
+  - int startDay
+  - int endDay
+  - boolean withInsurance
+  + getCar(): Car
+  + getDuration(): int
+  + getTotalCost(): double
+  + printRentalAgreement()
+}
+
+class RentalAgency {
+  - Car[] cars
+  - Customer[] customers
+  - Rental[] rentals
+  - int carCount
+  - int customerCount
+  - int rentalCount
+  - double totalRevenue
+  + addCar(int carId, String brand, String model, int year, double dailyRate)
+  + registerCustomer(int customerId, String name, String licenseNum)
+  + rentCar(int customerId, int carId, int startDay, int endDay, boolean withInsurance)
+  + returnCar(int rentalId, int kmDriven)
+  + printFleetReport()
+  + printFianancialSummary()
+}
+
+class Main {
+  + main(String[] args)
+}
+
+RentalAgency "1" *-- "0..*" Car : has
+RentalAgency "1" *-- "0..*" Customer : has
+RentalAgency "1" *-- "0..*" Rental : manages
+Rental "1" --> "1" Car : car
+Rental "1" --> "1" Customer : customer
+Main --> RentalAgency : uses
+
+@enduml
